@@ -33,7 +33,6 @@ namespace mbit_Robot {
     const PRESCALE = 0xFE
 
     let initialized = false
-    let yahStrip: neopixel.Strip;
 
     export enum enColor {
 
