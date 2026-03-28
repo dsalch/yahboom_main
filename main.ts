@@ -344,7 +344,7 @@ namespace mbit_Robot {
     //% blockId=mbit_RGB_Car_Big2 block="RGB_Car_Big2|value %value"
     //% weight=101
     //% blockGap=10
-    //% color="#C814B8"
+    //% color="#006400"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function RGB_Car_Big2(value: enColor): void {
 
@@ -399,44 +399,6 @@ namespace mbit_Robot {
             }
         }
     }
-    //% blockId=mbit_RGB_Car_Big block="RGB_Car_Big|value1 %value1|value2 %value2|value3 %value3"
-    //% weight=100
-    //% blockGap=10
-    //% color="#C814B8"
-    //% value1.min=0 value1.max=255 value2.min=0 value2.max=255 value3.min=0 value3.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function RGB_Car_Big(value1: number, value2: number, value3: number): void {
-
-        let R = value1 * 16;
-        let G = value2 * 16;
-        let B = value3 * 16;
-
-        if (R > 4096)
-            R = 4095;
-        if (G > 4096)
-            G = 4095;
-        if (B > 4096)
-            B = 4095;
-
-        setPwm(0, 0, R);
-        setPwm(1, 0, G);
-        setPwm(2, 0, B);
-
-    }
-
-    //% blockId=mbit_RGB_Car_Program block="RGB_Car_Program"
-    //% weight=99
-    //% blockGap=10
-    //% color="#C814B8"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function RGB_Car_Program(): neopixel.Strip {
-         
-        if (!yahStrip) {
-            yahStrip = neopixel.create(DigitalPin.P16, 3, NeoPixelMode.RGB);
-        }
-        return yahStrip;  
-    }
-
 
 	//% blockId=mbit_ultrasonic_car block="ultrasonic return distance(cm)"
     //% color="#006400"
