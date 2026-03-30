@@ -1,13 +1,6 @@
 ﻿/*
-Copyright (C): 2010-2019, Shenzhen Yahboom Tech
-modified from liusen
-load dependency
-"mbit": "file:../pxt-mbit"
+Modified from original yahboom extension
 */
-
-
-
-
 
 
 //% color="#006400" weight=20 icon="\uf1b9"
