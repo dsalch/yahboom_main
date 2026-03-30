@@ -215,7 +215,7 @@ namespace mbit_Robot {
     // ==========================================
 
     //% blockId=mbit_Music_Car block="Music_Car|%index"
-    //% group="Sounds" weight=100
+    //% group="Sounds & Lights" weight=100
     export function Music_Car(index: enMusic): void {
         switch (index) {
             case enMusic.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
@@ -261,7 +261,7 @@ namespace mbit_Robot {
     // ==========================================
 
     //% blockId=mbit_CarCtrlSpeed2 block="CarCtrlSpeed2|%index|speed1 %speed1|speed2 %speed2"
-    //% group="Motors" weight=100
+    //% group="Motors" weight=80
     //% speed1.min=0 speed1.max=255 speed2.min=0 speed2.max=255
     export function CarCtrlSpeed2(index: CarState, speed1: number, speed2: number): void {
         switch (index) {
@@ -283,7 +283,7 @@ namespace mbit_Robot {
     }
 
     //% blockId=mbit_CarCtrl block="CarCtrl|%index"
-    //% group="Motors" weight=80
+    //% group="Motors" weight=100
     export function CarCtrl(index: CarState): void {
         CarCtrlSpeed2(index, 255, 255);
     }
