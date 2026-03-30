@@ -119,6 +119,32 @@ namespace mbit_Robot {
         Car_SpinRight = 7
     }
 
+	/**
+     * Returns the heading (0-360) for a robot with the micro:bit 
+     * mounted vertically (LEDs facing forward, Pins down).
+     */
+    //% blockId="yahboom_robot_heading" block="robot heading"
+    //% group="Sensors" weight=70
+    export function robotHeading(): number {
+        // Read magnetic force on the Y (Left/Right) and Z (Forward/Backward) axes
+        let y = input.magneticForce(Dimension.Y);
+        let z = input.magneticForce(Dimension.Z);
+
+        // Calculate angle in radians
+        let angle = Math.atan2(y, z);
+        
+        // Convert to degrees
+        let degrees = angle * (180 / Math.PI);
+
+        // Normalize to 0-360 range
+        if (degrees < 0) {
+            degrees += 360;
+        }
+
+        // Return as a whole number
+        return Math.floor(degrees);
+    }
+	
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
         buf[0] = reg
