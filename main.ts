@@ -126,22 +126,6 @@ namespace mbit_Robot {
     // SENSORS GROUP
     // ==========================================
 
-    //% blockId=mbit_get_battery_voltage block="battery voltage (V)"
-    //% group="Sensors" weight=65
-    export function getBatteryVoltage(): number {
-        // Read the raw value from P3 (0-1023)
-        let raw = pins.analogReadPin(AnalogPin.P3);
-    
-        // Step 1: Convert raw value to voltage at the pin (0-3.3V)
-        let pinVoltage = (raw * 3.3) / 1023;
-    
-        // Step 2: Multiply by 2 to account for the 1:2 voltage divider on the board
-        let batteryVoltage = pinVoltage * 2;
-    
-        // Return rounded to 2 decimal places
-        return Math.round(batteryVoltage * 100) / 100;
-    }
-    
     
     //% blockId="yahboom_robot_heading" block="robot heading"
     //% group="Sensors" weight=100
