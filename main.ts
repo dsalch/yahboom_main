@@ -117,20 +117,22 @@ namespace mbit_Robot {
     // SENSORS GROUP
     // ==========================================
 
-    /**
-     * Returns the heading (0-360) for a robot with the micro:bit 
-     * mounted vertically (LEDs facing forward, Pins down).
-     */
-    //% blockId="yahboom_robot_heading" block="robot heading"
+//% blockId="yahboom_robot_heading" block="robot heading"
     //% group="Sensors" weight=100
     export function robotHeading(): number {
-        let y = input.magneticForce(Dimension.Y);
+        // X is side-to-side, Z is forward-through-the-LEDs
+        // When vertical, these two form the horizontal plane
+        let x = input.magneticForce(Dimension.X);
         let z = input.magneticForce(Dimension.Z);
-        let angle = Math.atan2(y, z);
+        
+        // Use atan2 to get the angle from the horizon-parallel axes
+        let angle = Math.atan2(x, z);
         let degrees = angle * (180 / Math.PI);
+        
         if (degrees < 0) {
             degrees += 360;
         }
+        
         return Math.floor(degrees);
     }
 
