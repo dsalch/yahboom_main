@@ -244,7 +244,7 @@ namespace mbit_Robot {
     }
 
     //% blockId=mbit_RGB_Car_Big2 block="RGB_Car_Big2|value %value"
-    //% group="Sounds" weight=90
+    //% group="Sounds & Lights" weight=90
     export function RGB_Car_Big2(value: enColor): void {
         switch (value) {
             case enColor.OFF: setPwm(0, 0, 0); setPwm(1, 0, 0); setPwm(2, 0, 0); break;
