@@ -96,6 +96,15 @@ namespace mbit_Robot {
         S3
     }
 
+    export enum enLook {
+        //% block="forward"
+        Forward = 90,
+        //% block="left"
+        Left = 180,
+        //% block="right"
+        Right = 0
+    }
+
     export enum CarState {
         //% blockId="Car_Run" block="forward"
         Car_Run = 1,
@@ -117,22 +126,14 @@ namespace mbit_Robot {
     // SENSORS GROUP
     // ==========================================
 
-//% blockId="yahboom_robot_heading" block="robot heading"
+    //% blockId="yahboom_robot_heading" block="robot heading"
     //% group="Sensors" weight=100
     export function robotHeading(): number {
-        // X is side-to-side, Z is forward-through-the-LEDs
-        // When vertical, these two form the horizontal plane
         let x = input.magneticForce(Dimension.X);
         let z = input.magneticForce(Dimension.Z);
-        
-        // Use atan2 to get the angle from the horizon-parallel axes
         let angle = Math.atan2(x, z);
         let degrees = angle * (180 / Math.PI);
-        
-        if (degrees < 0) {
-            degrees += 360;
-        }
-        
+        if (degrees < 0) { degrees += 360; }
         return Math.floor(degrees);
     }
 
@@ -278,25 +279,46 @@ namespace mbit_Robot {
     }
 
     //% blockId=mbit_CarCtrlSpeed block="CarCtrlSpeed|%index|speed %speed"
-    //% group="Motors" weight=90
+    //% group="Motors" weight=70
     //% speed.min=0 speed.max=255
     export function CarCtrlSpeed(index: CarState, speed: number): void {
         CarCtrlSpeed2(index, speed, speed);
     }
 
     //% blockId=mbit_CarCtrl block="CarCtrl|%index"
-    //% group="Motors" weight=100
+    //% group="Motors" weight=60
     export function CarCtrl(index: CarState): void {
         CarCtrlSpeed2(index, 255, 255);
     }
 
     //% blockId=mbit_Servo_Car block="Servo_Car|num %num|value %value"
-    //% group="Motors" weight=70
+    //% group="Motors" weight=50
     //% num.min=1 num.max=3 value.min=0 value.max=180
     export function Servo_Car(num: enServo, value: number): void {
         let us = (value * 1800 / 180 + 600);
         let pwm = us * 4096 / 20000;
         setPwm(num + 2, 0, pwm);
+    }
+
+    /**
+     * Look in a specific direction (Forward, Left, Right)
+     */
+    //% blockId=mbit_look block="look %direction"
+    //% group="Motors" weight=40
+    export function look(direction: enLook): void {
+        Servo_Car(enServo.S1, direction);
+    }
+
+    /**
+     * Look at a specific degree (0 is straight, -90 is left, 90 is right)
+     */
+    //% blockId=mbit_look_degrees block="look %degrees degrees"
+    //% group="Motors" weight=30
+    //% degrees.min=-90 degrees.max=90 degrees.defl=0
+    export function lookDegrees(degrees: number): void {
+        // Map -90 to 180 (left), 0 to 90 (center), 90 to 0 (right)
+        let servoVal = 90 - degrees;
+        Servo_Car(enServo.S1, servoVal);
     }
 
     // ==========================================
