@@ -122,26 +122,30 @@ namespace mbit_Robot {
 	/**
      * Returns the heading (0-360) for a robot with the micro:bit 
      * mounted vertically (LEDs facing forward, Pins down).
+     * This reads the rotation around the vertical plane.
      */
     //% blockId="yahboom_robot_heading" block="robot heading"
     //% group="Sensors" weight=70
     export function robotHeading(): number {
-        // Read magnetic force on the Y (Left/Right) and Z (Forward/Backward) axes
+        // Read magnetic force on the Y (Left/Right) and Z (Forward/Backward)
+        // These two form the "flat" plane relative to the floor in this orientation.
         let y = input.magneticForce(Dimension.Y);
         let z = input.magneticForce(Dimension.Z);
 
-        // Calculate angle in radians
+        // Calculate angle using atan2(y, z)
+        // This calculates the horizontal angle regardless of vertical tilt.
         let angle = Math.atan2(y, z);
         
         // Convert to degrees
         let degrees = angle * (180 / Math.PI);
 
-        // Normalize to 0-360 range
+        // Normalize to 0-360
         if (degrees < 0) {
             degrees += 360;
         }
 
-        // Return as a whole number
+        // If the numbers go backwards (e.g., turning right makes numbers go down),
+        // change the return to: return Math.floor(360 - degrees);
         return Math.floor(degrees);
     }
 	
