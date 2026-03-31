@@ -1,6 +1,6 @@
 {
     "name": "yahboom_main",
-    "version": "2.1.8",
+    "version": "2.1.9",
     "description": "Extension for YahBoom SmartCar with Microbit",
     "license": "MIT",
     "dependencies": {
