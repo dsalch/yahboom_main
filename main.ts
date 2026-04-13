@@ -1,6 +1,7 @@
 /*
 Modified from original yahboom extension
 Grouped by Sensors, Sounds, and Motors
+Added persistent speed memory for CarCtrl
 */
 
 //% color="#006400" weight=20 icon="\uf1b9"
@@ -26,6 +27,10 @@ namespace mbit_Robot {
     const PRESCALE = 0xFE
 
     let initialized = false
+
+    // Speed Memory Variables
+    let lastSpeedL = 50
+    let lastSpeedR = 50
 
     export enum enColor {
         //% blockId="OFF" block="off"
@@ -264,10 +269,19 @@ namespace mbit_Robot {
     // MOTORS GROUP
     // ==========================================
 
+    /**
+     * Set motor speeds and remember them for future use.
+     */
     //% blockId=mbit_CarCtrlSpeed2 block="CarCtrlSpeed2|%index|speed1 %speed1|speed2 %speed2"
     //% group="Motors" weight=60
     //% speed1.min=0 speed1.max=255 speed2.min=0 speed2.max=255
     export function CarCtrlSpeed2(index: CarState, speed1: number, speed2: number): void {
+        // Update memory for subsequent CarCtrl calls
+        if (index != CarState.Car_Stop) {
+            lastSpeedL = speed1;
+            lastSpeedR = speed2;
+        }
+
         switch (index) {
             case CarState.Car_Run: Car_run(speed1, speed2); break;
             case CarState.Car_Back: Car_back(speed1, speed2); break;
@@ -286,10 +300,14 @@ namespace mbit_Robot {
         CarCtrlSpeed2(index, speed, speed);
     }
 
+    /**
+     * Executes movement using the last set speed (defaults to 50 if none set).
+     */
     //% blockId=mbit_CarCtrl block="CarCtrl|%index"
     //% group="Motors" weight=80
     export function CarCtrl(index: CarState): void {
-        CarCtrlSpeed2(index, 255, 255);
+        // Uses the remembered speeds instead of hardcoded 255
+        CarCtrlSpeed2(index, lastSpeedL, lastSpeedR);
     }
 
     //% blockId=mbit_Servo_Car block="Servo_Car|num %num|value %value"
